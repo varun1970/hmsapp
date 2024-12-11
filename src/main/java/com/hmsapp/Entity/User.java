@@ -28,7 +28,7 @@ public class User {
     @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private String role;
 
 }
