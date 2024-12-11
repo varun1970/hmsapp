@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
+import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt;
+
 @Service
 public class UserService {
     UserRepository userRepository;
@@ -36,7 +38,7 @@ public class UserService {
         if(getUserMobile.isPresent()){
             throw new DublicateData("Mobile already exists");
         }
-        user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(10)));
+        user.setPassword(BCrypt.hashpw(dto.getPassword(),gensalt(10)));
         User savedUser = userRepository.save(user);
         return mapToDto(savedUser);
     }
@@ -49,7 +51,6 @@ public class UserService {
 
 
     public String verifyLogin( LoginDto loginDto) {
-        System.out.println("Service");
      Optional<User>  opUsre =userRepository.findByUserName(loginDto.getUserName());
      if(opUsre.isPresent()){
          User user = opUsre.get();
