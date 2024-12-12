@@ -17,9 +17,26 @@ public class AuthController {
     }
     @PostMapping("/sign-up")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_USER");
         UserDto saveDto = userService.add(userDto);
         return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
     }
+
+    @PostMapping("property/sign-up")
+    public ResponseEntity<?> createPropertyOwnerAccount(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_OWNER");
+        UserDto saveDto = userService.add(userDto);
+        return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("blog/sign-up")
+    public ResponseEntity<?> createBlogManagerAccount(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_BLOGMANAGER");
+        UserDto saveDto = userService.add(userDto);
+        return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         String tokens=userService.verifyLogin(loginDto);
