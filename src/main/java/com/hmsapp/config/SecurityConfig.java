@@ -21,8 +21,10 @@ public class SecurityConfig {
         http.csrf().disable()
                 .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/login", "/api/auth/sign-up").permitAll()
-                .requestMatchers("/api/v1/property/addproperty", "/api/v1/property/deleteproperty").hasRole("PROPERTYOWNER")
+                .requestMatchers("/api/auth/login", "/api/auth/sign-up")
+                .permitAll()
+                .requestMatchers("/api/v1/property/addproperty", "/api/v1/property/deleteproperty")
+                .hasRole("OWNER")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().disable();
