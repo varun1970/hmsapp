@@ -21,10 +21,12 @@ import java.util.Optional;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
+
     UserRepository userRepository;
 
-
+    public JwtFilter(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
