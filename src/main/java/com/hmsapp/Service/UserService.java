@@ -3,6 +3,7 @@ package com.hmsapp.Service;
 import com.hmsapp.Entity.User;
 import com.hmsapp.Exception.DublicateData;
 import com.hmsapp.PayLoad.LoginDto;
+import com.hmsapp.PayLoad.ProfileDto;
 import com.hmsapp.PayLoad.UserDto;
 import com.hmsapp.Repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -58,9 +59,16 @@ public class UserService {
              return jwtService.generateTokens(user.getUserName());
          }
      }
-     else {
-          return null;
-     }
+
         return null;
+    }
+
+    public ProfileDto getProfile(User user) {
+        ProfileDto dto=new ProfileDto();
+        dto.setId(user.getId());
+        dto.setUserName(user.getUserName());
+        dto.setEmailId(user.getEmailId());
+        dto.setMobileNumber(user.getMobileNumber());
+        return dto;
     }
 }

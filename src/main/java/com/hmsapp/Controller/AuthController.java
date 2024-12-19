@@ -1,11 +1,14 @@
 package com.hmsapp.Controller;
 
+import com.hmsapp.Entity.User;
 import com.hmsapp.PayLoad.JwtToken;
 import com.hmsapp.PayLoad.LoginDto;
+import com.hmsapp.PayLoad.ProfileDto;
 import com.hmsapp.PayLoad.UserDto;
 import com.hmsapp.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,6 +50,10 @@ public class AuthController {
             return new ResponseEntity<>(jwtToken, HttpStatus.OK);
         }
         return new  ResponseEntity<>("/invalid", HttpStatus.UNAUTHORIZED);
+    }
+    @GetMapping("/profile")
+    public ProfileDto getProfile(@AuthenticationPrincipal User user){
+        return userService.getProfile(user);
     }
 
 }

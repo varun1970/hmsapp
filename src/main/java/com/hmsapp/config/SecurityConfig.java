@@ -17,8 +17,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          http.authorizeHttpRequests().anyRequest().permitAll();
-        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
-//        http.csrf().disable().cors().disable()
+  //      http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
+        http.csrf().disable().cors().disable();
 //                .authorizeHttpRequests()
 //                .requestMatchers("/api/auth/login", "/api/auth/sign-up","/api/auth/property/sign-up")
 //                .permitAll()
