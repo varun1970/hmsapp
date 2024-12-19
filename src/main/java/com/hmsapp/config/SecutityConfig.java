@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
-public class SecurityConfig {
+public class SecutityConfig {
     @Autowired
     JwtFilter jwtFilter;
 
