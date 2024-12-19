@@ -1,11 +1,14 @@
 package com.hmsapp.Controller;
 
+import com.hmsapp.Entity.User;
 import com.hmsapp.PayLoad.JwtToken;
 import com.hmsapp.PayLoad.LoginDto;
+import com.hmsapp.PayLoad.ProfileDto;
 import com.hmsapp.PayLoad.UserDto;
 import com.hmsapp.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +20,26 @@ public class AuthController {
     }
     @PostMapping("/sign-up")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_USER");
         UserDto saveDto = userService.add(userDto);
         return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
     }
+
+    @PostMapping("property/sign-up")
+    public ResponseEntity<?> createPropertyOwnerAccount(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_OWNER");
+        UserDto saveDto = userService.add(userDto);
+        return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("blog/sign-up")
+    public ResponseEntity<?> createBlogManagerAccount(@RequestBody UserDto userDto){
+        userDto.setRole("ROLE_BLOGMANAGER");
+        UserDto saveDto = userService.add(userDto);
+        return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         String tokens=userService.verifyLogin(loginDto);
@@ -30,6 +50,10 @@ public class AuthController {
             return new ResponseEntity<>(jwtToken, HttpStatus.OK);
         }
         return new  ResponseEntity<>("/invalid", HttpStatus.UNAUTHORIZED);
+    }
+    @GetMapping("/profile")
+    public ProfileDto getProfile(@AuthenticationPrincipal User user){
+        return userService.getProfile(user);
     }
 
 }

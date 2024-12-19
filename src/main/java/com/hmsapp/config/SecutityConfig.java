@@ -8,22 +8,24 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
-public class SecutityConfig {
+public class SecurityConfig {
     @Autowired
     JwtFilter jwtFilter;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-        http.csrf().disable().cors().disable();
-        //http.authorizeHttpRequests().anyRequest().permitAll();
-       http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/login","/api/auth/sign-up").permitAll()
-                .requestMatchers("/api/v1/property/addproperty","/api/v1/property/deleteproperty")
-                .hasAnyRole("PROPERTYOWNER","ADMIN")
-                .anyRequest().authenticated();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+   //     http.authorizeHttpRequests().anyRequest().permitAll();
+        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
+        http.csrf().disable()
+                .cors().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/login", "/api/auth/sign-up").permitAll()
+                .requestMatchers("/api/v1/property/addproperty", "/api/v1/property/deleteproperty").hasRole("PROPERTYOWNER")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().disable();
+
         return http.build();
-
     }
-
-
 }

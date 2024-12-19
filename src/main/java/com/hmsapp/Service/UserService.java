@@ -3,12 +3,15 @@ package com.hmsapp.Service;
 import com.hmsapp.Entity.User;
 import com.hmsapp.Exception.DublicateData;
 import com.hmsapp.PayLoad.LoginDto;
+import com.hmsapp.PayLoad.ProfileDto;
 import com.hmsapp.PayLoad.UserDto;
 import com.hmsapp.Repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+
+import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt;
 
 @Service
 public class UserService {
@@ -36,7 +39,7 @@ public class UserService {
         if(getUserMobile.isPresent()){
             throw new DublicateData("Mobile already exists");
         }
-        user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(10)));
+        user.setPassword(BCrypt.hashpw(dto.getPassword(),gensalt(10)));
         User savedUser = userRepository.save(user);
         return mapToDto(savedUser);
     }
@@ -49,7 +52,6 @@ public class UserService {
 
 
     public String verifyLogin( LoginDto loginDto) {
-        System.out.println("Service");
      Optional<User>  opUsre =userRepository.findByUserName(loginDto.getUserName());
      if(opUsre.isPresent()){
          User user = opUsre.get();
@@ -57,9 +59,16 @@ public class UserService {
              return jwtService.generateTokens(user.getUserName());
          }
      }
-     else {
-          return null;
-     }
+
         return null;
+    }
+
+    public ProfileDto getProfile(User user) {
+        ProfileDto dto=new ProfileDto();
+        dto.setId(user.getId());
+        dto.setUserName(user.getUserName());
+        dto.setEmailId(user.getEmailId());
+        dto.setMobileNumber(user.getMobileNumber());
+        return dto;
     }
 }
