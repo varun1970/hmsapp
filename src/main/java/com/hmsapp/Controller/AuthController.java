@@ -25,16 +25,16 @@ public class AuthController {
         return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("property/sign-up")
+    @PostMapping("/property/sign-up")
     public ResponseEntity<?> createPropertyOwnerAccount(@RequestBody UserDto userDto){
         userDto.setRole("ROLE_OWNER");
         UserDto saveDto = userService.add(userDto);
         return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("blog/sign-up")
+    @PostMapping("/blog/sign-up")
     public ResponseEntity<?> createBlogManagerAccount(@RequestBody UserDto userDto){
-        userDto.setRole("ROLE_BLOGMANAGER");
+        userDto.setRole("ROLE_BLOG MANAGER");
         UserDto saveDto = userService.add(userDto);
         return new ResponseEntity<>(saveDto, HttpStatus.CREATED);
     }
