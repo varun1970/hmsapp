@@ -2,6 +2,7 @@ package com.hmsapp.Controller;
 
 import com.hmsapp.Entity.Property;
 import com.hmsapp.Service.PropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/property")
 public class PropertyController {
-    public PropertyController(PropertyService propertyService) {
-        this.propertyService = propertyService;
-    }
 
+
+    @Autowired
     PropertyService propertyService;
 
     @PostMapping("/addproperty")
@@ -28,7 +28,7 @@ public class PropertyController {
 
     @GetMapping("/{searchparm}")
     public ResponseEntity<List<Property>> getSearchProperties(@PathVariable String searchparm) {
-        List<Property> properties = PropertyService.searchProperty(searchparm);
+        List<Property> properties = propertyService.searchProperty(searchparm);
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 
