@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewsService {
@@ -19,56 +20,34 @@ public class ReviewsService {
         this.reviewsRepository = reviewsRepository;
     }
 
-    ModelMapper modelMapper;
-    PropertyRepository propertyRepository;
-    ReviewsRepository reviewsRepository;
+    private ModelMapper modelMapper;
+    private PropertyRepository propertyRepository;
+    private ReviewsRepository reviewsRepository;
 
     public Object addReview(ReviewsDto reviewsDto, long propertyId, User user) {
-        Optional<Property> property= propertyRepository.findById(propertyId);
-        if(property.isEmpty()) {
+        Optional<Property> property = propertyRepository.findById(propertyId);
+        if (property.isEmpty()) {
             throw new RuntimeException("Property not found");
         }
-        Reviews reviewStatus=reviewsRepository.findByUserAndProperty(user, property.get());
-        if(reviewStatus!=null) {
-
-
-            System.out.println("before map reviewsDto  " + reviewsDto.getRating());
-            System.out.println("before map propertyId  " + propertyId);
-            System.out.println("before map user  " + user.getUserName());
-            Reviews reviews = mapToReviews(reviewsDto);
-            System.out.println("service after mapToReviews " + reviews.getRating());
+        Reviews reviewStatus = reviewsRepository.findByUserAndProperty(user, property.get());
+        if (reviewStatus == null) {
+            Reviews reviews = modelMapper.map(reviewsDto,Reviews.class);
             reviews.setProperty(property.get());
-            System.out.println("property.get() getName" + property.get().getName());
             reviews.setUser(user);
-            Reviews review = reviewsRepository.save(reviews);
-            ReviewsDto d = mapToReviewsDto(review);
-            System.out.println("service mapToReviewsDto " + d.getUser().getUserName());
-            System.out.println("service mapToReviewsDto " + d.getRating());
-            System.out.println("service mapToReviewsDto " + d.getProperty().getName());
-            return d;
-        }
-        return "review added already";
+            Reviews r = reviewsRepository.save(reviews);
+            return modelMapper.map(r,ReviewsDto.class);
+        } else
+            return "review added already";
     }
 
     public List<ReviewsDto> getMyReviews(User user) {
-        List<Reviews> li= reviewsRepository.findByUser(user);
-        System.out.println();
-        return li.stream().map(this::mapToReviewsDto).toList();
+        List<Reviews> li = reviewsRepository.findByUser(user);
+        List<ReviewsDto> reviewsDTO = li.stream()
+                .map(reviews1 -> {
+                    reviews1.getUser().setPassword(null);
+                    return modelMapper.map(reviews1, ReviewsDto.class);
+                })
+                .collect(Collectors.toList());
+        return reviewsDTO;
     }
-    Reviews mapToReviews(ReviewsDto reviewsdto){
-        Reviews reviews= modelMapper.map(reviewsdto,Reviews.class);
-        reviews.setId(reviewsdto.getId());
-        reviews.setRating(reviewsdto.getRating());
-        return reviews;
-    }
-    ReviewsDto mapToReviewsDto(Reviews reviews){
-        ReviewsDto dto= modelMapper.map(reviews,ReviewsDto.class);
-        dto.setId(reviews.getId());
-        dto.setRating(reviews.getRating());
-        dto.setDescription(reviews.getDescription());
-        return dto;
-    }
-
-
-
 }

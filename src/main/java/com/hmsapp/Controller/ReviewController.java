@@ -29,12 +29,11 @@ public class ReviewController {
             @RequestParam long propertyId,
             @AuthenticationPrincipal User user
             ){
-        ReviewsDto dto= (ReviewsDto) reviewsService.addReview(reviewsDto,propertyId,user);
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        return new ResponseEntity<>(reviewsService.addReview(reviewsDto,propertyId,user), HttpStatus.CREATED);
     }
 
     @GetMapping("/reviews")
-    public ResponseEntity<List<ReviewsDto>> getMyReviews(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<?>> getMyReviews(@AuthenticationPrincipal User user){
 
         return new ResponseEntity<>(reviewsService.getMyReviews(user),HttpStatus.OK);
     }

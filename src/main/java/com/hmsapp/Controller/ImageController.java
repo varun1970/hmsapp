@@ -20,7 +20,6 @@ public class ImageController {
                                                  @PathVariable Long propertyId){
         String imageUrl= String.valueOf(bucketService.uploadFile(file, bucketName));
         return new  ResponseEntity<>(imageUrl, HttpStatus.OK);
-
     }
 
 

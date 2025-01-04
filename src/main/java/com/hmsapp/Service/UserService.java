@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
-
 import static org.springframework.security.crypto.bcrypt.BCrypt.gensalt;
 
 @Service
@@ -26,7 +25,7 @@ public class UserService {
     }
 
     public UserDto add(UserDto dto) {
-        User user = mapToEntity(dto);
+        User user = modelMapper.map(dto,User.class);
         Optional<User> getUserName=userRepository.findByUserName(user.getUserName());
         if(getUserName.isPresent()){
             throw new DublicateData("Name User already");
@@ -41,15 +40,8 @@ public class UserService {
         }
         user.setPassword(BCrypt.hashpw(dto.getPassword(),gensalt(10)));
         User savedUser = userRepository.save(user);
-        return mapToDto(savedUser);
+        return modelMapper.map(savedUser,UserDto.class);
     }
-      UserDto mapToDto(User user){
-        return modelMapper.map(user,UserDto.class);
-    }
-     User mapToEntity(UserDto dto){
-        return modelMapper.map(dto,User.class);
-    }
-
 
     public String verifyLogin( LoginDto loginDto) {
      Optional<User>  opUsre =userRepository.findByUserName(loginDto.getUserName());
@@ -59,16 +51,22 @@ public class UserService {
              return jwtService.generateTokens(user.getUserName());
          }
      }
-
         return null;
     }
 
     public ProfileDto getProfile(User user) {
-        ProfileDto dto=new ProfileDto();
-        dto.setId(user.getId());
-        dto.setUserName(user.getUserName());
-        dto.setEmailId(user.getEmailId());
-        dto.setMobileNumber(user.getMobileNumber());
-        return dto;
+        Optional<User> u=  userRepository.findById(user.getId());
+        if(u.isPresent()) {
+            User ug=u.get();
+            ProfileDto dto = new ProfileDto();
+            dto.setId(ug.getId());
+            dto.setUserName(ug.getUserName());
+            dto.setEmailId(ug.getEmailId());
+            dto.setMobileNumber(ug.getMobileNumber());
+            return dto;
+        }
+        else {
+            throw new RuntimeException("invalid");
+        }
     }
 }
