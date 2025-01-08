@@ -13,6 +13,4 @@ public class ReviewsDto  {
     private String description;
     private User user;
     private Property property;
-
-
 }

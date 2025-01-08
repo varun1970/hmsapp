@@ -1,16 +1,12 @@
 package com.hmsapp.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Entity
 @Table(name = "rooms_availability")
-public class RoomsAvailability {
+public class Rooms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
