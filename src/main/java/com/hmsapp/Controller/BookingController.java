@@ -30,7 +30,7 @@ public class BookingController {
         if (savedBooking == null) {
             return new ResponseEntity<>("Something went wrong ,your booking failed ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        pdfGeneration.pdfGeneration("C:\\pgmPDF\\Booking"+savedBooking.getGuestName()+".pdf",savedBooking);
+        pdfGeneration.pdfGeneration("C:\\Users\\Varun B\\OneDrive\\Desktop\\PGM PDFs\\"+savedBooking.getGuestName()+"_Booking.pdf",savedBooking);
         return new ResponseEntity<>(savedBooking, HttpStatus.OK);
     }
 }
