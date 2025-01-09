@@ -1,7 +1,7 @@
 package com.hmsapp.Controller;
 
-import com.hmsapp.Entity.RoomsAvailability;
-import com.hmsapp.Service.RoomsAvailabilityService;
+import com.hmsapp.Entity.Rooms;
+import com.hmsapp.Service.RoomsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
-public class RoomsAvailabilityController {
+public class RoomsController {
     @Autowired
-    private RoomsAvailabilityService roomsAvailabilityService;
+    private RoomsService roomsService;
 
     @GetMapping("/search")
     public ResponseEntity<?> searchRoomAvailability(
@@ -25,8 +25,7 @@ public class RoomsAvailabilityController {
             @RequestParam Long propertyId,
             @RequestParam String roomType){
 
-        List<RoomsAvailability> rooms = roomsAvailabilityService.searchrommes(fromDate, toDate, roomType,propertyId);
-        List<RoomsAvailability> totalrooms;
+        List<Rooms> rooms = roomsService.searchrommes(fromDate, toDate, roomType,propertyId);
         if (rooms.isEmpty()) {
             return new ResponseEntity<>("No rooms available for the given criteria", HttpStatus.INTERNAL_SERVER_ERROR);
         }
