@@ -4,6 +4,8 @@ import com.hmsapp.Entity.Booking;
 import com.hmsapp.Entity.Rooms;
 import com.hmsapp.Service.BookingService;
 import com.hmsapp.Service.PDFGeneration;
+import com.hmsapp.Service.TwilioService;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.time.LocalDate;
 public class BookingController {
 
     @Autowired
+    private TwilioService twilioService;
+    @Autowired
     private PDFGeneration pdfGeneration ;
     @Autowired
     private BookingService bookService;
@@ -24,13 +28,12 @@ public class BookingController {
             @RequestParam LocalDate toDate,
             @RequestParam Long propertyId,
             @RequestParam String roomType,
-            @RequestBody Booking booking){
+            @RequestBody Booking booking) throws UnirestException {
 
-        Booking savedBooking = bookService.searchrommes(fromDate, toDate, roomType,propertyId, booking);
+        Booking savedBooking = bookService.searchRooms(fromDate, toDate, roomType,propertyId, booking);
         if (savedBooking == null) {
             return new ResponseEntity<>("Something went wrong ,your booking failed ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        pdfGeneration.pdfGeneration("C:\\Users\\Varun B\\OneDrive\\Desktop\\PGM PDFs\\"+savedBooking.getGuestName()+"_Booking.pdf",savedBooking);
         return new ResponseEntity<>(savedBooking, HttpStatus.OK);
     }
 }

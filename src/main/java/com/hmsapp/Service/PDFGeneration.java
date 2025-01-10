@@ -24,7 +24,6 @@ public class PDFGeneration {
          ConverterProperties converterProperties = new ConverterProperties();
          HtmlConverter.convertToPdf(htmlContent, outputStream, converterProperties);
 
-         System.out.println("PDF created successfully at: " + path);
 
       } catch (Exception e) {
          e.printStackTrace();
@@ -132,7 +131,7 @@ public class PDFGeneration {
                         </table>
                         <div class="info">
                             <p><strong>You have booked a hotel near:</strong> %s</p>
-                            <p><strong>Customer Service Number:</strong> 8904418145</p>
+                            <p><strong>Customer Service Number:</strong> 91+8904418145</p>
                             <p><strong>Email:</strong> <a href="mailto:vb05122001@gmail.com">vb05122001@gmail.com</a></p>
                         </div>
                     </div>

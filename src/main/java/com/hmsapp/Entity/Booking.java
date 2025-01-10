@@ -20,7 +20,7 @@ public class Booking {
     @Column(name = "no_of_guest")
     private int noOfGuest;
 
-    @Column(name = "mobile", length = 10)
+    @Column(name = "mobile")
     private String mobile;
 
     @Column(name = "email")

@@ -19,11 +19,21 @@
 
 	<dependencies>
 		<!-- Twilio API -->
+		<!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
-			<version>8.18.0</version>
+			<version>8.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+
+
+
 
 		<!-- Spring Data JPA -->
 		<dependency>
