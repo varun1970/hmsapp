@@ -14,6 +14,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/booking")
+@CrossOrigin("http://localhost:4200/")
 public class BookingController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class BookingController {
     private PDFGeneration pdfGeneration ;
     @Autowired
     private BookingService bookService;
-    @GetMapping
+    @PostMapping
     public ResponseEntity<?> bookRoom(
             @RequestParam LocalDate fromDate,
             @RequestParam LocalDate toDate,

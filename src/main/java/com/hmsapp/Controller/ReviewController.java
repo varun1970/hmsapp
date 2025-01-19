@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reviews")
+
 public class ReviewController {
     public ReviewController(PropertyService propertyService, ReviewsService reviewsService) {
         this.propertyService = propertyService;

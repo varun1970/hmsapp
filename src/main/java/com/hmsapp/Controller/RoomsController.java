@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
+
 public class RoomsController {
     @Autowired
     private RoomsService roomsService;
