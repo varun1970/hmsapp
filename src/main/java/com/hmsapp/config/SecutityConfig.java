@@ -19,9 +19,9 @@ public class SecutityConfig {
 //        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
        http.csrf().disable()
                .cors().disable();
-//                .authorizeHttpRequests()
+//            http.authorizeHttpRequests()
 //                .requestMatchers("/api/auth/login", "/api/auth/sign-up").permitAll()
-//                .requestMatchers("/api/v1/property/addproperty", "/api/v1/property/deleteproperty").hasRole("PROPERTYOWNER")
+//                .requestMatchers("/api/v1/property/addproperty", "/api/v1/property/deleteproperty").hasAnyRole("PROPERTYOWNER","admin")
 //                .anyRequest().authenticated()
 //                .and()
 //                .sessionManagement().disable();

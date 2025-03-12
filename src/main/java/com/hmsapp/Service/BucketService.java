@@ -11,7 +11,6 @@ import java.net.URL;
 
 @Service
 public class BucketService {
-
     @Autowired
     private AmazonS3 amazonS3;
 
