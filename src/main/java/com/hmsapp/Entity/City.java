@@ -13,7 +13,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    private int varun;
+    private int john;
 
     @Column(name = "name", length = 45)
     private String name;
